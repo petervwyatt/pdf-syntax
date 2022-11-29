@@ -4,10 +4,15 @@
     "displayName": "PDF",
     "description": "PDF Syntax Highlighter",
     "license": "MIT",
+    "homepage": "https://github.com/petervwyatt/pdf-syntax",
     "icon": "icon.png",
     "version": "0.0.1",
     "author": {
 		"name": "PDF Association"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/petervwyatt/pdf-syntax.git"
 	},
     "engines": {
         "vscode": "^1.33.0"
