@@ -1,0 +1,130 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "pdf",
+    "scopeName": "source.pdf",
+    "patterns": [
+        { "include": "#comments" },
+        { "include": "#pdf-boolean" },
+        { "include": "#pdf-keywords" },
+        { "include": "#pdf-dictionary" },
+        { "include": "#pdf-array" },
+        { "include": "#pdf-string-literal" },
+        { "include": "#pdf-string-hex" },
+        { "include": "#pdf-name" }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "explanation": "PDF single line comment",
+                    "name": "comment.line.percentage",
+                    "match": "%.*"
+                }
+            ]
+        },
+        "pdf-boolean": {
+            "patterns": [
+                {
+                    "explanation": "PDF boolean object",
+                    "name": "constant.language.pdf.boolean",
+                    "match": "(true|false)"
+                }
+            ]
+        },
+        "pdf-keywords": {
+            "patterns": [
+                {
+                    "explanation": "PDF keywords",
+                    "name": "keyword.other.pdf",
+                    "match": "(xref|startxref|trailer|obj|endobj|stream|endstream|R)"
+                }, 
+                {
+                    "explanation": "PDF content stream operators",
+                    "name": "keyword.operator.pdf",
+                    "match": "(w|J|j|M|d|ri|i|gs|q|Q|cm|cs|CS|SC|SCN|G|g|RG|rg|K|k|m|l|c|v|y|h|re|S|s|f|F|f\\*|B|B\\*|b|b\\*|n|W|W\\*|sh|BI|ID|EI|Do|Tc|Tw|Tz|TL|Tf|Tr|Ts|Td|TD|Tm|T\\*|do|d1|MP|DP|BMC|BDC|EMC|BX|EX|BT|ET|Tj|TJ|Tf|Tc|Tw|Td|cm)"
+                }
+            ]
+        },
+        "pdf-dictionary": {
+            "explanation": "PDF dictionary object",
+            "name": "meta.brace.round",
+			"patterns": [
+                {
+                    "name": "meta.brace.round",
+                    "match": "<<"
+                },
+                {
+                    "name": "meta.brace.round",
+                    "match": ">>"
+                }
+            ]
+        },
+        "pdf-array": {
+            "explanation": "PDF array object",
+            "name": "meta.brace.round",
+			"patterns": [
+                {
+                    "name": "meta.brace.round",
+                    "match": "\\["
+                },
+                {
+                    "name": "meta.brace.round",
+                    "match": "]"
+                }
+            ]
+        },
+        "pdf-string-literal": {
+            "explanation": "PDF string literal object",
+            "name": "string.quoted.single.pdf",
+            "begin": "\\(",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.begin.pdf.literal"
+                }
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.end.pdf.literal"
+                }
+            },
+            "patterns": [
+                {
+                    "match": "(\\\\[0-7]{3}|\\\\n|\\\\r|\\\\t|\\\\b|\\\\f|\\\\(|\\\\)|\\\\\\\\|[\\040-\\047\\052-\\177])*"
+                }
+            ]
+        },
+        "pdf-string-hex": {
+            "explanation": "PDF hexadecimal string literal object",
+            "name": "string.quoted.single.pdf.hex",
+            "begin": "<[[:xdigit:]]",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.begin.pdf.hex"
+                }
+            },
+            "end": "[[:xdigit:]]+>",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.string.end.pdf.hex"
+                }
+            },
+            "patterns": [
+                {
+                    "match": "[[:xdigit:]]*"
+                }
+            ]
+        },
+        "pdf-name": {
+            "explanation": "PDF name object",
+            "name": "entity.name.tag",
+            "begin": "\\/[^% \\s]",
+            "end": "\\s",
+            "patterns": [
+                {
+                    "match": "[^% \\s]*"
+                }
+            ]
+        }
+    }
+}
