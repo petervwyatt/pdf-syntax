@@ -1,16 +1,15 @@
 {
     "comments": {
-        // symbol used for single line comment
+        // symbol used for single line comment. PDF does not have multi-line comments.
         "lineComment": "%"
     },
     // symbols used as brackets that alter indentation
     "brackets": [
-        ["{", "}"],
-        ["[", "]"],
-        ["<<", ">>"],
-        ["<", ">"]
+        ["{", "}"],   // Type 4 PostScript functions
+        ["[", "]"],   // PDF arrays
+        ["<<", ">>"]  // PDF dictionaries
     ],
-    // symbols that are auto closed when typing
+    // symbols that are auto-closed when typing
     "autoClosingPairs": [
         { "open": "{",  "close": "}",  "notIn": ["string","comment"] },
         { "open": "[",  "close": "]",  "notIn": ["string","comment"] },
@@ -20,16 +19,16 @@
     ],
     // symbols that that can be used to surround a selection
     "surroundingPairs": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"],
-        ["<<", ">>"],
-        ["<", ">"]
+        ["{", "}"],    // Type 4 PostScript functions
+        ["[", "]"],    // PDF arrays
+        ["(", ")"],    // PDF literal strings
+        ["<<", ">>"],  // PDF dictionaries
+        ["<", ">"]     // PDF hex strings
     ],
     "folding": {
         "markers": {
-           "start": "(<<)|(\\[)|(^[[:digit:]]]+ [[:digit:]]]+ obj)",
-           "end": "(>>)|(])|(^endobj)"
+           "start": "^[[:digit:]]]+ [[:digit:]]]+ obj",
+           "end": "^endobj"
        }
     }    
 }

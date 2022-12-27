@@ -10,6 +10,7 @@
 >>
 endobj
 
+
 2 0 obj
 <<
   /Type /Pages
@@ -31,30 +32,25 @@ endobj
 endobj
 
 4 0 obj
-<</Type /Font
+<</Type/Font
   /Subtype /Type1
   /BaseFont /Helvetica
+  /Blah null
   /SomeBooleanKey true/NextKey/NextValue >>
 endobj
 
 5 0 obj
 <<
-  /Length 2248
+  /Length 0
 >>
 stream
 	2 0 0 2 0 0 cm
 
-    % some vertical lines for alignment
-    0 w
+  % some vertical lines for alignment
+  0 w
 	20 0 m 20 850 l S
 	30 0 m 30 850 l S
 	40 0 m 40 850 l S
-	50 0 m 50 850 l S
-	60 0 m 60 850 l S
-	70 0 m 70 850 l S
-	80 0 m 80 850 l S
-	90 0 m 90 850 l S
-
 
 	1 0 0 RG    % red stroking
     5 w         % line width

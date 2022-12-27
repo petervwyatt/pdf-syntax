@@ -140,13 +140,13 @@
         "pdf-string-hex": {
             "explanation": "PDF hexadecimal string literal object",
             "name": "string.quoted.single.pdf.hex",
-            "begin": "<[[:xdigit:]]",
+            "begin": "<[[:xdigit:]]*",
             "beginCaptures": {
                 "1": {
                     "name": "punctuation.definition.string.begin.pdf.hex"
                 }
             },
-            "end": "[[:xdigit:]]+>",
+            "end": ">",
             "endCaptures": {
                 "1": {
                     "name": "punctuation.definition.string.end.pdf.hex"
