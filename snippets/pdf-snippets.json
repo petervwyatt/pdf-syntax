@@ -1,0 +1,29 @@
+{
+	"New PDF object": {
+		"description": "New PDF object",
+		"prefix": "obj",
+		"body": [
+			"$0X 0 obj",
+			"<<",
+			"   /Type ${1:/}",
+			">>",
+			"endobj",
+			""
+		]
+	},
+	"New PDF stream": {
+		"description": "New PDF stream object",
+		"prefix": "stream",
+		"body": [
+			"$0X 0 obj",
+			"<<",
+			"   /Length ${1:0}",
+			">>",
+			"stream",
+			"",
+			"endstream",
+			"endobj",
+			""
+		]
+	}
+}

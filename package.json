@@ -2,11 +2,10 @@
     "name": "pdf",
     "publisher": "petervwyatt",
     "displayName": "PDF",
-    "description": "PDF Syntax Highlighter",
+    "description": "PDF COS Syntax Highlighter",
     "license": "MIT",
     "homepage": "https://github.com/petervwyatt/pdf-syntax",
-    "icon": "icon.png",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": {
 		"name": "PDF Association"
 	},
@@ -20,18 +19,24 @@
     "categories": [
         "Programming Languages"
     ],
+    "keywords": [ 
+        "PDF", "FDF", "Portable Document Format", "COS syntax", "ISO 32000"
+    ],
     "contributes": {
         "languages": [
             {
                 "id": "pdf",
+                "icon": {
+                    "light": "./icons/pdf-light.png",
+                    "dark": "./icons/pdf-dark.png"                    
+                },
                 "aliases": [
                     "pdf", "pdf"
                 ],
                 "extensions": [
-                    "pdf",
-                    "fdf"
+                    ".pdf", ".fdf"
                 ],
-                "firstline": "^%PDF-[0-9]\\.[0-9]\b",
+                "firstline": "^%[PF]DF-[12]\\.[0-7]\b",
                 "configuration": "./language-configuration.json"
             }
         ],
@@ -41,6 +46,12 @@
                 "scopeName": "source.pdf",
                 "path": "./syntaxes/pdf.tmLanguage.json"
             }
-        ]
+        ],
+        "snippets": [
+            {
+              "language": "pdf",
+              "path": "./snippets/pdf-snippets.json"
+            }
+          ]        
     }
 }

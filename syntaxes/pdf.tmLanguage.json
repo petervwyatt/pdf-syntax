@@ -2,9 +2,13 @@
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "pdf",
     "scopeName": "source.pdf",
+    "fileTypes": [ ".pdf", ".fdf" ],
+    "firstLineMatch": "^%[PF]DF-[12]\\.[0-7]",
     "patterns": [
         { "include": "#comments" },
         { "include": "#pdf-boolean" },
+        { "include": "#pdf-indirect-reference" },
+        { "include": "#pdf-object" },
         { "include": "#pdf-keywords" },
         { "include": "#pdf-dictionary" },
         { "include": "#pdf-array" },
@@ -13,10 +17,22 @@
         { "include": "#pdf-name" }
     ],
     "repository": {
+        "pdf-whitespace": {
+            "explanation": "PDF defines 6 white space characters in Table 1 from ISO 32000-2:2020 - excluding CURLY BRACEs",
+            "match": "\\\\000|\\\\t|\\\\n|\\\\f|\\\\r| "
+        },
+        "pdf-delimiter": {
+            "explanation": "PDF defines 8 delimiter characters in Table 2 from ISO 32000-2:2020",
+            "match": "\\(|\\)|<|>|\\[|]|\\/|%"
+        },
+        "pdf-end-of-line": {
+            "explanation": "PDF defines 3 end-of-line sequences: CR, LF and CR+LF",
+            "match": "\\\\r|\\\\n|(\\\\r|\\\\n)"
+        },
         "comments": {
             "patterns": [
                 {
-                    "explanation": "PDF single line comment",
+                    "explanation": "PDF single line comment from PERCENT to end of current line",
                     "name": "comment.line.percentage",
                     "match": "%.*"
                 }
@@ -26,8 +42,26 @@
             "patterns": [
                 {
                     "explanation": "PDF boolean object",
-                    "name": "constant.language.pdf.boolean",
+                    "name": "constant.language.boolean.pdf",
                     "match": "(true|false)"
+                }
+            ]
+        },
+        "pdf-indirect-reference": {
+            "patterns": [
+                {
+                    "explanation": "PDF indirect references are an object number, SPACE, generation number, followed by the keyword R",
+                    "name": "keyword.other.pdf.indirect-reference",
+                    "match": "[[:digit:]]+ [[:digit:]]+ R"
+                }
+            ]
+        },
+        "pdf-object": {
+            "patterns": [
+                {
+                    "explanation": "PDF objects start with an object number, SPACE, generation number, followed by the keyword obj",
+                    "name": "meta.tag.pdf.object",
+                    "match": "[[:digit:]]+ [[:digit:]]+ obj"
                 }
             ]
         },
@@ -36,56 +70,65 @@
                 {
                     "explanation": "PDF keywords",
                     "name": "keyword.other.pdf",
-                    "match": "(xref|startxref|trailer|obj|endobj|stream|endstream|R)"
+                    "match": "(xref|startxref|trailer|obj|endobj|stream|endstream|null|R)"
                 }, 
                 {
                     "explanation": "PDF content stream operators",
                     "name": "keyword.operator.pdf",
                     "match": "(w|J|j|M|d|ri|i|gs|q|Q|cm|cs|CS|SC|SCN|G|g|RG|rg|K|k|m|l|c|v|y|h|re|S|s|f|F|f\\*|B|B\\*|b|b\\*|n|W|W\\*|sh|BI|ID|EI|Do|Tc|Tw|Tz|TL|Tf|Tr|Ts|Td|TD|Tm|T\\*|do|d1|MP|DP|BMC|BDC|EMC|BX|EX|BT|ET|Tj|TJ|Tf|Tc|Tw|Td|cm)"
+                },
+                {
+                    "explanation": "PDF Type 4 function Postscript operators",
+                    "name": "keyword.operator.pdf.type4-postscript",
+                    "match": "(abs|cvi|floor|mod|sin|add|cvr|idiv|mul|sqrt|atan|div|ln|neg|sub|ceiling|exp|log|round|truncate|cos|and|false|le|not|true|bitshift|ge|lt|or|xor|eq|gt|ne|if|ifelse|copy|exch|pop|dup|index|roll)"
                 }
             ]
         },
         "pdf-dictionary": {
             "explanation": "PDF dictionary object",
-            "name": "meta.brace.round",
+            "name": "punctuation.paren",
 			"patterns": [
                 {
-                    "name": "meta.brace.round",
+                    "explanation": "PDF dictionary start token",
+                    "name": "punctuation.paren.open.pdf.dictionary",
                     "match": "<<"
                 },
                 {
-                    "name": "meta.brace.round",
+                    "explanation": "PDF dictionary end token",
+                    "name": "punctuation.paren.close.pdf.dictionary",
                     "match": ">>"
                 }
             ]
         },
         "pdf-array": {
             "explanation": "PDF array object",
-            "name": "meta.brace.round",
+            "name": "punctuation.paren",
 			"patterns": [
                 {
-                    "name": "meta.brace.round",
+                    "explanation": "PDF array start token",
+                    "name": "punctuation.paren.open.pdf.array",
                     "match": "\\["
                 },
                 {
-                    "name": "meta.brace.round",
+                    "explanation": "PDF array end token",
+                    "name": "punctuation.paren.close.pdf.array",
                     "match": "]"
                 }
             ]
         },
         "pdf-string-literal": {
-            "explanation": "PDF string literal object",
+            "explanation": "PDF string literal object supports 3-digit octal values and various escape sequences preceded by a BACKSLASH",
             "name": "string.quoted.single.pdf",
             "begin": "\\(",
             "beginCaptures": {
                 "1": {
-                    "name": "punctuation.definition.string.begin.pdf.literal"
+                    "name": "punctuation.definition.string.begin.literal.pdf"
                 }
             },
             "end": "\\)",
             "endCaptures": {
                 "1": {
-                    "name": "punctuation.definition.string.end.pdf.literal"
+                    "name": "punctuation.definition.string.end.literal.pdf"
                 }
             },
             "patterns": [
@@ -116,15 +159,9 @@
             ]
         },
         "pdf-name": {
-            "explanation": "PDF name object",
-            "name": "entity.name.tag",
-            "begin": "\\/[^% \\s]",
-            "end": "\\s",
-            "patterns": [
-                {
-                    "match": "[^% \\s]*"
-                }
-            ]
+            "explanation": "PDF name objects begin with a FORWARD SLASH",
+            "name": "entity.name.pdf",
+            "match": "\\/[^%\\/ \\n\\r\\t\\b\\f\\(\\)\\s]*"
         }
     }
 }
