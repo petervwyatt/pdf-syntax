@@ -3,11 +3,10 @@
         // symbol used for single line comment
         "lineComment": "%"
     },
-    // symbols used as brackets
+    // symbols used as brackets that alter indentation
     "brackets": [
         ["{", "}"],
         ["[", "]"],
-        ["(", ")"],
         ["<<", ">>"],
         ["<", ">"]
     ],
@@ -29,8 +28,8 @@
     ],
     "folding": {
         "markers": {
-           "start": "(<<)|(\\[)|(^[0-9]+ [0-9]+ obj)",
-           "end": "(>>)|(\\])|(^endobj)"
+           "start": "(<<)|(\\[)|(^[[:digit:]]]+ [[:digit:]]]+ obj)",
+           "end": "(>>)|(])|(^endobj)"
        }
     }    
 }
